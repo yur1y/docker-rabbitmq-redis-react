@@ -12,6 +12,10 @@ Before you begin, ensure you have the following installed on your machine:
 - [Node.js](https://nodejs.org/) (if you want to run services without Docker)
 - [pnpm](https://pnpm.js.org/) (if you want to run services without Docker)
 
+#### Environment Variables
+
+To use this application, you will need to create a NASA API key. You can obtain your API key by visiting the following link: [NASA API](https://api.nasa.gov/).
+
 ## Getting Started
 
 ### 1. Clone the Repository

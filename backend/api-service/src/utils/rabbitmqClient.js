@@ -50,5 +50,4 @@ async function sendRpcRequest(job) {
     setTimeout(() => reject(new Error("Timeout")), 30000);
   });
 }
-
 module.exports = { sendRpcRequest };
