@@ -1,0 +1,60 @@
+services:
+  api-service:
+    build:
+      context: ./backend/api-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend/api-service:/app
+      - /node_modules
+    depends_on:
+      - rabbitmq
+      - redis
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_URL=amqp://rabbitmq
+    command: [pnpm, start:dev]
+
+  worker-service:
+    build:
+      context: ./backend/worker-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/worker-service:/app
+      - /node_modules
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - NODE_ENV=development
+      - RABBITMQ_URL=amqp://rabbitmq
+      - REDIS_URL=redis://redis:6379
+    command: [pnpm, start:dev]
+
+  frontend:
+    restart: always
+    build:
+      context: frontend
+    volumes:
+      - ./frontend:/app
+      - /node_modules
+    ports:
+      - 3000:3000
+    command: [pnpm, start]
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

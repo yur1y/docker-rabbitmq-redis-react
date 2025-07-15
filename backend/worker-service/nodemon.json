@@ -1,0 +1,8 @@
+{
+  "watch": ["src"],
+  "ext": "js,json",
+  "exec": "node src/worker.js",
+  "restartable": "rs",
+  "delay": "1",
+  "max_restarts": 10
+}
